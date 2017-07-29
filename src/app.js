@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { View, Text } from 'react-native';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import Firebase from 'firebase';
 import reducers from './reducers';
 
 import LoginForm from './components/loginForm';
 
 function configureStore() {
-  const store = createStore(reducers);
+  const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
@@ -37,7 +37,7 @@ class App extends Component {
 
     render() {
         return (
-            <Provider store={configureStore()}>
+            <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
                 <LoginForm />
             </Provider>
         );
