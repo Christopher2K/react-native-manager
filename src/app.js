@@ -5,6 +5,22 @@ import { createStore } from 'redux';
 import Firebase from 'firebase';
 import reducers from './reducers';
 
+import LoginForm from './components/loginForm';
+
+function configureStore() {
+  const store = createStore(reducers);
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./reducers', () => {
+      const nextRootReducer = require('./reducers/index');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
+}
+
 class App extends Component {
 
     componentWillMount() {
@@ -21,10 +37,8 @@ class App extends Component {
 
     render() {
         return (
-            <Provider store={createStore(reducers)}>
-                <View>
-                    <Text>Beau gosse iOS 7 OK Bref</Text>
-                </View>
+            <Provider store={configureStore()}>
+                <LoginForm />
             </Provider>
         );
     }
