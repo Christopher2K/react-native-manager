@@ -7,20 +7,6 @@ import reducers from './reducers';
 
 import LoginForm from './components/loginForm';
 
-function configureStore() {
-  const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
-
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept('./reducers', () => {
-      const nextRootReducer = require('./reducers/index');
-      store.replaceReducer(nextRootReducer);
-    });
-  }
-
-  return store;
-}
-
 class App extends Component {
 
     componentWillMount() {
